@@ -3,7 +3,7 @@ Study by Bernadeta Dadonaite and Jesse Bloom.
 
 Measures functional effects of mutations and escape from antibody REGN10933.
 
-For documentation of the analysis, see [https://dms-vep.github.io/SARS-CoV-2_Delta_spike_DMS/](https://dms-vep.github.io/SARS-CoV-2_Delta_spike_DMS/).
+For documentation of the analysis, see [https://dms-vep.github.io/SARS-CoV-2_Delta_spike_DMS_REGN10933](https://dms-vep.github.io/SARS-CoV-2_Delta_spike_DMS_REGN10933).
 
 ## Organization of this repo
 
