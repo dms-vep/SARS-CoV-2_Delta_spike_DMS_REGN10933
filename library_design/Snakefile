@@ -1,0 +1,202 @@
+"""Analyze amino-acid and mutation counts."""
+
+configfile: 'config.yaml'
+
+rule all:
+    input:
+        'results/spike_alignment_counts.csv',
+        'results/spike_mutcounts.csv',
+        'results/spike_positive_selection_sites.csv',
+        'results/pool_variant_gisaid_mutation_primers.csv',
+        'results/pool_positive_selection_site_primers_all.csv',
+        'results/pool_usher_primers.csv',
+        'results/pool_delta_positiveSelection_paired_primers.csv',
+        'results/gisaid_primer_oPool.csv',
+        'results/usher_primer_oPool.csv',
+        'results/positiveSel_primer_oPool.csv',
+        'results/paired_positiveSel_primer_oPool.csv',
+        'results/aggregated_mutations.csv',
+
+rule filter_and_align_gisaid:
+    """Filter and align GISAID sequences."""
+    input: allprots=config['gisaid_all_spikes'],
+    output: alignment='results/gisaid_alignment.fasta'
+    params:
+        ref_name=config['ref_name'],
+        max_ambiguous=config['max_ambiguous'],
+        length_range=config['length_range']
+    threads: 16
+    script: 'scripts/filter_and_align_gisaid.py'
+
+rule spike_alignment_counts:
+    """Get counts of each amino-acid at each site in alignment."""
+    input: alignment=rules.filter_and_align_gisaid.output.alignment
+    output: alignment_counts='results/spike_alignment_counts.csv'
+    script: 'scripts/spike_alignment_counts.py'
+
+rule get_UShER_tree:
+    """Get UShER SARS-CoV-2 tree: https://github.com/yatisht/usher."""
+    output:
+        directory=directory('results/UShER_SARS-CoV-2'),
+        mat='results/UShER_SARS-CoV-2/public-latest.all.masked.pb',
+    shell:
+        """
+        wget \
+            -r \
+            -l 1 \
+            -np \
+            -nH \
+            -R "index.html*" \
+            -P {output.directory} \
+            http://hgdownload.soe.ucsc.edu/goldenPath/wuhCor1/UShER_SARS-CoV-2/
+        mv {output.directory}/goldenPath/wuhCor1/UShER_SARS-CoV-2/* {output.directory}
+        rm -r {output.directory}/goldenPath
+        """
+
+rule get_UShER_refseq:
+    """Get UShER reference sequence."""
+    output: refseq='results/NC_045512.2.gb'
+    shell:
+        """
+        efetch \
+            -format gb \
+            -db nuccore \
+            -id NC_045512.2 \
+            > {output.refseq}
+        """
+
+rule genomic_mutcounts:
+    """Get counts of each genomic nucleotide mutation."""
+    input: mat=rules.get_UShER_tree.output.mat
+    output: genomic_mutcounts='results/genomic_mutcounts.csv'
+    shell:
+        # https://usher-wiki.readthedocs.io/en/latest/matUtils.html#summary
+        """
+        matUtils summary \
+            -T 1 \
+            -i results/UShER_SARS-CoV-2/public-latest.all.masked.pb \
+            -m {output.genomic_mutcounts}
+        """
+
+rule spike_mutcounts:
+    """Get counts of each spike amino-acid mutation."""
+    input:
+        refseq=rules.get_UShER_refseq.output.refseq,
+        genomic_mutcounts=rules.genomic_mutcounts.output.genomic_mutcounts,
+    output: spike_mutcounts='results/spike_mutcounts.csv'
+    script: 'scripts/spike_mutcounts.py'
+
+rule get_selection:
+    """Get data on selected sites."""
+    output: genomic_selection='results/genomic_selection.csv'
+    params: url=config['site_selection_url']
+    shell: "wget {params.url} -O {output.genomic_selection}"
+
+rule spike_positive_selection_sites:
+    """Get positively selected sites in spike."""
+    input: csv=rules.get_selection.output.genomic_selection
+    output: csv='results/spike_positive_selection_sites.csv'
+    params:
+        p_cutoff=config['site_selection_p_cutoff'],
+        min_windows=config['site_selection_min_time_windows']
+    script: 'scripts/spike_positive_selection_sites.py'
+
+rule gisaid_primers:
+    """Make primers for mutations on GISAID"""
+    input:
+        gisaid_mutations=rules.spike_alignment_counts.output.alignment_counts,
+        reference_lookup=config['reference_lookup'],
+        codon_table='reference_sequences/homo_codon_freq_del.csv',
+        spike_extended='reference_sequences/B16172_extended_ends_for_primers.txt',
+        create_primers_srcipt='scripts/create_primers_del.py',
+    params:
+        gisaid_mutation_count_filter=config['gisaid_mutation_count_filter'],
+    output:
+        variant_gisaid_mutations='results/variant_gisaid_mutations.csv',
+        variant_gisaid_primers_del='results/variant_gisaid_primers_del.csv',
+        variant_gisaid_primers='results/pool_variant_gisaid_mutation_primers.csv'
+    conda: '../environment.yml'
+    log: 
+        notebook='results/logs/gisaid_variant_primers.ipynb'
+    notebook: 'notebooks/gisaid_variant_primers.py.ipynb'
+
+rule positive_selection_primers:
+    """Make NNS primers for positive selection site"""
+    input:
+        positive_sel_df=rules.spike_positive_selection_sites.output.csv,
+        reference_lookup=config['reference_lookup'],
+        spike_extended='reference_sequences/B16172_extended_ends_for_primers.txt',
+        create_primers_srcipt='scripts/2021Jan_create_primers.py',
+    output:
+        full_length_spike_primers_NNG='results/FULL_LENGTH_Spike_primer_positive_selection_NNG.csv',
+        full_length_spike_primers_NNC='results/FULL_LENGTH_Spike_primer_positive_selection_NNC.csv',
+        PS_length_spike_primer_df_NNG_out='results/Positive_selection_site_primers_NNG.csv',
+        PS_length_spike_primer_df_NNC_out='results/Positive_selection_site_primers_NNC.csv',
+        PS_length_spike_primer_df_out='results/pool_positive_selection_site_primers_all.csv'
+    conda: '../environment.yml'
+    log: 
+        notebook='results/logs/positive_selection_primers.ipynb'
+    notebook: 'notebooks/positive_selection_primers.py.ipynb'
+
+rule usher_primers:
+    """Make primers for homoplasies"""
+    input:
+        usher_df=rules.spike_mutcounts.output.spike_mutcounts,
+        reference_lookup=config['reference_lookup'],
+        gisaid_mutations=rules.spike_alignment_counts.output.alignment_counts,
+        codon_table='reference_sequences/homo_codon_freq_del.csv',
+        spike_extended='reference_sequences/B16172_extended_ends_for_primers.txt',
+        create_primers_srcipt='scripts/create_primers_del.py',
+    params:
+        usher_count_filter=config['usher_count_filter'],
+    output:
+        new_usher_df_out='results/variant_usher_mutations.csv',
+        usher_primers='results/pool_usher_primers.csv',
+    conda: '../environment.yml'
+    log: 
+        notebook='results/logs/usher_primers.ipynb'
+    notebook: 'notebooks/usher_primers.py.ipynb'
+
+
+rule paired_positive_selection_primers:
+    """Make NNS primers for with multiple positive selection site"""
+    input:
+        positive_sel_df=rules.spike_positive_selection_sites.output.csv,
+        reference_lookup=config['reference_lookup'],
+        spike_extended='reference_sequences/B16172_extended_ends_for_paired_primers.fasta',
+    output:
+        positiveSelection_paired_primers_out='results/pool_delta_positiveSelection_paired_primers.csv'
+    conda: '../environment.yml'
+    log: 
+        notebook='results/logs/paired_positive_selection_primers.ipynb'
+    notebook: 'notebooks/paired_positive_selection_primers.py.ipynb'
+
+rule oPool_sheets:
+    """Make IDT oPool primer spreadsheets"""
+    input:
+        paired_positiveSel_primers=rules.paired_positive_selection_primers.output.positiveSelection_paired_primers_out,
+        usher_primers=rules.usher_primers.output.usher_primers,
+        positiveSel_primers=rules.positive_selection_primers.output.PS_length_spike_primer_df_out,
+        gisaid_primers=rules.gisaid_primers.output.variant_gisaid_primers
+    output:
+        oPool_gisaid_out='results/gisaid_primer_oPool.csv',
+        oPool_usher_out='results/usher_primer_oPool.csv',
+        oPool_PS_out='results/positiveSel_primer_oPool.csv',
+        oPool_paired_PS_out='results/paired_positiveSel_primer_oPool.csv'
+    params:
+        variant=config['variant']
+    conda: '../environment.yml'
+    log: 
+        notebook='results/logs/oPool_primer_sheets.ipynb'
+    notebook: 'notebooks/oPool_primer_sheets.py.ipynb'
+
+rule aggregate_mutations:
+    """Aggregate all mutations in any primer pool."""
+    input:
+        paired_positiveSel_primers=rules.paired_positive_selection_primers.output.positiveSelection_paired_primers_out,
+        usher_primers=rules.usher_primers.output.usher_primers,
+        positiveSel_primers=rules.positive_selection_primers.output.PS_length_spike_primer_df_out,
+        gisaid_primers=rules.gisaid_primers.output.variant_gisaid_primers
+    output: csv='results/aggregated_mutations.csv'
+    conda: '../environment.yml'
+    script: 'scripts/aggregate_mutations.py'

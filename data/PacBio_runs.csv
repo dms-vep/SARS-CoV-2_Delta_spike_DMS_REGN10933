@@ -1,0 +1,9 @@
+library,run,fastq
+Lib-1,211105,/fh/fast/bloom_j/SR/ngs/pacbio/211105_BernadetaDadonaite/Bernadeta_Pool-Cell1/fastx_files/demultiplex.bc1001_BAK8A_OA--bc1001_BAK8A_OA.hifi_reads.fastq.gz
+Lib-3,211105,/fh/fast/bloom_j/SR/ngs/pacbio/211105_BernadetaDadonaite/Bernadeta_Pool-Cell1/fastx_files/demultiplex.bc1002_BAK8A_OA--bc1002_BAK8A_OA.hifi_reads.fastq.gz
+Lib-2,211105,/fh/fast/bloom_j/SR/ngs/pacbio/211105_BernadetaDadonaite/Bernadeta_Pool-Cell1/fastx_files/demultiplex.bc1003_BAK8A_OA--bc1003_BAK8A_OA.hifi_reads.fastq.gz
+Lib-4,211105,/fh/fast/bloom_j/SR/ngs/pacbio/211105_BernadetaDadonaite/Bernadeta_Pool-Cell1/fastx_files/demultiplex.bc1008_BAK8A_OA--bc1008_BAK8A_OA.hifi_reads.fastq.gz
+Lib-1,220124,/fh/fast/bloom_j/SR/ngs/pacbio/220120_BernadetaDadonaite/Bernadeta_Pool-Cell1/fastx_files/demultiplex.bc1001_BAK8A_OA--bc1001_BAK8A_OA.hifi_reads.fastq.gz
+Lib-3,220124,/fh/fast/bloom_j/SR/ngs/pacbio/220120_BernadetaDadonaite/Bernadeta_Pool-Cell1/fastx_files/demultiplex.bc1002_BAK8A_OA--bc1002_BAK8A_OA.hifi_reads.fastq.gz
+Lib-2,220124,/fh/fast/bloom_j/SR/ngs/pacbio/220120_BernadetaDadonaite/Bernadeta_Pool-Cell1/fastx_files/demultiplex.bc1003_BAK8A_OA--bc1003_BAK8A_OA.hifi_reads.fastq.gz
+Lib-4,220124,/fh/fast/bloom_j/SR/ngs/pacbio/220120_BernadetaDadonaite/Bernadeta_Pool-Cell1/fastx_files/demultiplex.bc1008_BAK8A_OA--bc1008_BAK8A_OA.hifi_reads.fastq.gz

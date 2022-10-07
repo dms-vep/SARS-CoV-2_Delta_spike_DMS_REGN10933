@@ -1,0 +1,24 @@
+
+#SARS-CoV-2 variant used in this analysis
+variant: delta
+
+# GISAID spike sequences
+gisaid_all_spikes: GISAID_data/spikeprot0724.fasta
+
+# Parameters for GISAID sequence filtering and alignment
+ref_name: EPI_ISL_406801  # reference sequence in alignment
+max_ambiguous: 100  # only keep spikes with <= this many ambiguous residues
+length_range: 25  # only keep spikes with lengths +/- this amount from reference
+
+# location of positive selection data
+site_selection_url: https://raw.githubusercontent.com/spond/SARS-CoV-2-variation/master/windowed-sites-fel-2021-07.csv
+site_selection_p_cutoff: 0.01  # consider sites with positive selection at P < this
+site_selection_min_time_windows: 3  # must be selected in at least this many time windows
+
+# mutation filters
+gisaid_mutation_count_filter: 1
+usher_count_filter: 7
+
+#lookup table for variant sequence renumbering
+reference_lookup: reference_sequences/reference_sequence_position_lookup.csv
+

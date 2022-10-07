@@ -1,0 +1,11 @@
+GISAID_data
+
+results/*
+!results/spike_alignment_counts.csv
+!results/spike_mutcounts.csv
+!results/spike_positive_selection_sites.csv
+!results/paired_positiveSel_primer_oPool.csv
+!results/gisaid_primer_oPool.csv
+!results/usher_primer_oPool.csv
+!results/positiveSel_primer_oPool.csv
+!results/aggregated_mutations.csv

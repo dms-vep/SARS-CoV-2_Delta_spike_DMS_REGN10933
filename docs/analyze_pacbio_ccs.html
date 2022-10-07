@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Analyze PacBio CCSs &#8212; Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Build PacBio consensus sequences" href="build_pacbio_consensus.html" />
+    <link rel="prev" title="Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="Analyze-PacBio-CCSs">
+<h1>Analyze PacBio CCSs<a class="headerlink" href="#Analyze-PacBio-CCSs" title="Permalink to this headline">¶</a></h1>
+<p>This notebook analyzes the PacBio CCSs that have been previously aligned and parsed with <a class="reference external" href="https://jbloomlab.github.io/alignparse/">alignparse</a>.</p>
+<p>Import Python modules:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">alignparse.targets</span>
+
+<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+</pre></div>
+</div>
+</div>
+<p>Get configuration information:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If you are running notebook interactively rather than in pipeline that handles</span>
+<span class="c1"># working directories, you may have to first `os.chdir` to appropriate directory.</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Read in the PacBio runs:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pacbio_runs</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;pacbio_runs&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+        <span class="n">pacbioRun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;library&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;run&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span>
+        <span class="n">subdir</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;process_ccs_dir&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;pacbioRun&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;fastq&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">pacbio_runs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>library</th>
+      <th>run</th>
+      <th>pacbioRun</th>
+      <th>subdir</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Lib-1</td>
+      <td>211105</td>
+      <td>Lib-1_211105</td>
+      <td>results/process_ccs/Lib-1_211105</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Lib-3</td>
+      <td>211105</td>
+      <td>Lib-3_211105</td>
+      <td>results/process_ccs/Lib-3_211105</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Lib-2</td>
+      <td>211105</td>
+      <td>Lib-2_211105</td>
+      <td>results/process_ccs/Lib-2_211105</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Lib-4</td>
+      <td>211105</td>
+      <td>Lib-4_211105</td>
+      <td>results/process_ccs/Lib-4_211105</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Lib-1</td>
+      <td>220124</td>
+      <td>Lib-1_220124</td>
+      <td>results/process_ccs/Lib-1_220124</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Lib-3</td>
+      <td>220124</td>
+      <td>Lib-3_220124</td>
+      <td>results/process_ccs/Lib-3_220124</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Lib-2</td>
+      <td>220124</td>
+      <td>Lib-2_220124</td>
+      <td>results/process_ccs/Lib-2_220124</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Lib-4</td>
+      <td>220124</td>
+      <td>Lib-4_220124</td>
+      <td>results/process_ccs/Lib-4_220124</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<section id="Stats-on-CCS-alignments">
+<h2>Stats on CCS alignments<a class="headerlink" href="#Stats-on-CCS-alignments" title="Permalink to this headline">¶</a></h2>
+<p>Read and plot the alignment stats from running <code class="docutils literal notranslate"><span class="pre">alignparse</span></code> on the PacBio CCSs:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">readstats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subdir</span><span class="p">,</span> <span class="s2">&quot;readstats.csv&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+                <span class="n">pacbioRun</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">pacbioRun</span><span class="p">,</span> <span class="n">library</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">library</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pacbio_runs</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+    <span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">readstats_chart</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">readstats</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;count:Q&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span>
+            <span class="s2">&quot;category:N&quot;</span><span class="p">,</span>
+            <span class="n">axis</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="p">),</span>
+        <span class="n">tooltip</span><span class="o">=</span><span class="n">readstats</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="n">facet</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Facet</span><span class="p">(</span><span class="s2">&quot;pacbioRun:N&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">resolve_scale</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;independent&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;independent&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">readstats_chart</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/fh/fast/bloom_j/software/miniconda3/envs/dms-vep-pipeline/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="altair-viz-fe5212e7a57247699d62da20e016e281"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-fe5212e7a57247699d62da20e016e281") {
+      outputDiv = document.getElementById("altair-viz-fe5212e7a57247699d62da20e016e281");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-58788e17be1d634c99dad882c0ef992a"}, "mark": "bar", "encoding": {"facet": {"columns": 2, "field": "pacbioRun", "title": null, "type": "nominal"}, "tooltip": [{"field": "category", "type": "nominal"}, {"field": "count", "type": "quantitative"}, {"field": "pacbioRun", "type": "nominal"}, {"field": "library", "type": "nominal"}], "x": {"field": "count", "type": "quantitative"}, "y": {"axis": {"title": null}, "field": "category", "type": "nominal"}}, "height": 75, "resolve": {"scale": {"x": "independent", "y": "independent"}}, "width": 250, "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-58788e17be1d634c99dad882c0ef992a": [{"category": "aligned PacBio_amplicon", "count": 555551, "pacbioRun": "Lib-1_211105", "library": "Lib-1"}, {"category": "filtered PacBio_amplicon", "count": 98612, "pacbioRun": "Lib-1_211105", "library": "Lib-1"}, {"category": "unmapped", "count": 9945, "pacbioRun": "Lib-1_211105", "library": "Lib-1"}, {"category": "aligned PacBio_amplicon", "count": 277734, "pacbioRun": "Lib-3_211105", "library": "Lib-3"}, {"category": "filtered PacBio_amplicon", "count": 51835, "pacbioRun": "Lib-3_211105", "library": "Lib-3"}, {"category": "unmapped", "count": 5415, "pacbioRun": "Lib-3_211105", "library": "Lib-3"}, {"category": "aligned PacBio_amplicon", "count": 442826, "pacbioRun": "Lib-2_211105", "library": "Lib-2"}, {"category": "filtered PacBio_amplicon", "count": 63411, "pacbioRun": "Lib-2_211105", "library": "Lib-2"}, {"category": "unmapped", "count": 6108, "pacbioRun": "Lib-2_211105", "library": "Lib-2"}, {"category": "aligned PacBio_amplicon", "count": 461149, "pacbioRun": "Lib-4_211105", "library": "Lib-4"}, {"category": "filtered PacBio_amplicon", "count": 73321, "pacbioRun": "Lib-4_211105", "library": "Lib-4"}, {"category": "unmapped", "count": 7858, "pacbioRun": "Lib-4_211105", "library": "Lib-4"}, {"category": "aligned PacBio_amplicon", "count": 576055, "pacbioRun": "Lib-1_220124", "library": "Lib-1"}, {"category": "filtered PacBio_amplicon", "count": 114574, "pacbioRun": "Lib-1_220124", "library": "Lib-1"}, {"category": "unmapped", "count": 12434, "pacbioRun": "Lib-1_220124", "library": "Lib-1"}, {"category": "aligned PacBio_amplicon", "count": 286468, "pacbioRun": "Lib-3_220124", "library": "Lib-3"}, {"category": "filtered PacBio_amplicon", "count": 60157, "pacbioRun": "Lib-3_220124", "library": "Lib-3"}, {"category": "unmapped", "count": 7144, "pacbioRun": "Lib-3_220124", "library": "Lib-3"}, {"category": "aligned PacBio_amplicon", "count": 455196, "pacbioRun": "Lib-2_220124", "library": "Lib-2"}, {"category": "filtered PacBio_amplicon", "count": 73081, "pacbioRun": "Lib-2_220124", "library": "Lib-2"}, {"category": "unmapped", "count": 7931, "pacbioRun": "Lib-2_220124", "library": "Lib-2"}, {"category": "aligned PacBio_amplicon", "count": 475648, "pacbioRun": "Lib-4_220124", "library": "Lib-4"}, {"category": "filtered PacBio_amplicon", "count": 85015, "pacbioRun": "Lib-4_220124", "library": "Lib-4"}, {"category": "unmapped", "count": 10111, "pacbioRun": "Lib-4_220124", "library": "Lib-4"}]}}, {"mode": "vega-lite"});
+</script></div>
+</div>
+</section>
+<section id="Visualize-target-to-which-reads-are-being-aligned">
+<h2>Visualize target to which reads are being aligned<a class="headerlink" href="#Visualize-target-to-which-reads-are-being-aligned" title="Permalink to this headline">¶</a></h2>
+<p>Draw images of the target we’re parsing:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">targets</span> <span class="o">=</span> <span class="n">alignparse</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">Targets</span><span class="p">(</span>
+    <span class="n">seqsfile</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;pacbio_amplicon&quot;</span><span class="p">],</span>
+    <span class="n">feature_parse_specs</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;pacbio_amplicon_specs&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax_width</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+    <span class="n">plots_indexing</span><span class="o">=</span><span class="s2">&quot;genbank&quot;</span><span class="p">,</span>
+    <span class="n">ax_height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">hspace</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/analyze_pacbio_ccs_9_0.png" src="_images/analyze_pacbio_ccs_9_0.png" />
+</div>
+</div>
+</section>
+<section id="Why-were-some-CCSs-filtered?">
+<h2>Why were some CCSs filtered?<a class="headerlink" href="#Why-were-some-CCSs-filtered?" title="Permalink to this headline">¶</a></h2>
+<p>Plot the number of CCSs filtered for each reason:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CSVs holding filtered reads</span>
+<span class="n">filtered_csvs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subdir</span><span class="p">,</span> <span class="s2">&quot;filtered.csv&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+                <span class="n">pacbioRun</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">pacbioRun</span><span class="p">,</span> <span class="n">library</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">library</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pacbio_runs</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+    <span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># details for all filtered reads</span>
+<span class="n">filtered</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">csv_file</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+            <span class="n">target</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">pacbioRun</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">pacbioRun</span><span class="p">,</span> <span class="n">library</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">library</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">filtered_csvs</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+    <span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># count reasons for filtering, then add number of non-filtered</span>
+<span class="n">filtered_reasons</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">filtered</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;pacbioRun&quot;</span><span class="p">,</span> <span class="s2">&quot;filter_reason&quot;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">NamedAgg</span><span class="p">(</span><span class="s2">&quot;query_name&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">readstats</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;category.str.startswith(&quot;aligned&quot;)&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;pacbioRun&quot;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">aggregate</span><span class="p">({</span><span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="s2">&quot;sum&quot;</span><span class="p">})</span>
+        <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">filter_reason</span><span class="o">=</span><span class="s2">&quot;aligned&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">total_counts</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;pacbioRun&quot;</span><span class="p">)[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+    <span class="n">frac_counts</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;total_counts&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># make chart</span>
+<span class="n">filtered_chart</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">filtered_reasons</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;count:Q&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span>
+            <span class="s2">&quot;filter_reason:N&quot;</span><span class="p">,</span>
+            <span class="n">axis</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="p">),</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;is_aligned:N&quot;</span><span class="p">,</span>
+        <span class="n">tooltip</span><span class="o">=</span><span class="n">filtered_reasons</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="n">facet</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Facet</span><span class="p">(</span><span class="s2">&quot;pacbioRun:N&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">resolve_scale</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;independent&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;independent&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span><span class="n">alt</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">frac_counts</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">transform_calculate</span><span class="p">(</span><span class="n">is_aligned</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">datum</span><span class="o">.</span><span class="n">filter_reason</span> <span class="o">==</span> <span class="s2">&quot;aligned&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">filtered_chart</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/fh/fast/bloom_j/software/miniconda3/envs/dms-vep-pipeline/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="altair-viz-304d3db19a8544b480a2ea5904e84e0f"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-304d3db19a8544b480a2ea5904e84e0f") {
+      outputDiv = document.getElementById("altair-viz-304d3db19a8544b480a2ea5904e84e0f");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-383dcc7542bdf124fa806444ec9270be"}, "mark": "bar", "encoding": {"color": {"field": "is_aligned", "type": "nominal"}, "facet": {"columns": 2, "field": "pacbioRun", "title": null, "type": "nominal"}, "tooltip": [{"field": "pacbioRun", "type": "nominal"}, {"field": "filter_reason", "type": "nominal"}, {"field": "count", "type": "quantitative"}, {"field": "total_counts", "type": "quantitative"}, {"field": "frac_counts", "type": "quantitative"}], "x": {"field": "count", "type": "quantitative"}, "y": {"axis": {"title": null}, "field": "filter_reason", "type": "nominal"}}, "height": 75, "resolve": {"scale": {"x": "independent", "y": "independent"}}, "transform": [{"filter": "(datum.frac_counts > 0.01)"}, {"calculate": "(datum.filter_reason === 'aligned')", "as": "is_aligned"}], "width": 250, "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-383dcc7542bdf124fa806444ec9270be": [{"pacbioRun": "Lib-1_211105", "filter_reason": "barcode clip3", "count": 574, "total_counts": 654163, "frac_counts": 0.0008774571475305084}, {"pacbioRun": "Lib-1_211105", "filter_reason": "barcode mutation_nt_count", "count": 8546, "total_counts": 654163, "frac_counts": 0.013064022269678963}, {"pacbioRun": "Lib-1_211105", "filter_reason": "gene clip3", "count": 6254, "total_counts": 654163, "frac_counts": 0.009560308363511846}, {"pacbioRun": "Lib-1_211105", "filter_reason": "gene mutation_nt_count", "count": 39200, "total_counts": 654163, "frac_counts": 0.05992390275818107}, {"pacbioRun": "Lib-1_211105", "filter_reason": "query_clip3", "count": 3339, "total_counts": 654163, "frac_counts": 0.005104232431366494}, {"pacbioRun": "Lib-1_211105", "filter_reason": "query_clip5", "count": 11033, "total_counts": 654163, "frac_counts": 0.016865827018648256}, {"pacbioRun": "Lib-1_211105", "filter_reason": "termini3 clip3", "count": 2622, "total_counts": 654163, "frac_counts": 0.004008175332447723}, {"pacbioRun": "Lib-1_211105", "filter_reason": "termini3 mutation_nt_count", "count": 3160, "total_counts": 654163, "frac_counts": 0.004830600324383984}, {"pacbioRun": "Lib-1_211105", "filter_reason": "termini5 clip5", "count": 18101, "total_counts": 654163, "frac_counts": 0.0276704735669856}, {"pacbioRun": "Lib-1_211105", "filter_reason": "termini5 mutation_nt_count", "count": 3234, "total_counts": 654163, "frac_counts": 0.004943721977549938}, {"pacbioRun": "Lib-1_211105", "filter_reason": "variant_tag3 mutation_nt_count", "count": 1746, "total_counts": 654163, "frac_counts": 0.002669059546321024}, {"pacbioRun": "Lib-1_211105", "filter_reason": "variant_tag5 mutation_nt_count", "count": 803, "total_counts": 654163, "frac_counts": 0.0012275228039494745}, {"pacbioRun": "Lib-1_220124", "filter_reason": "barcode clip3", "count": 727, "total_counts": 690629, "frac_counts": 0.001052663586382848}, {"pacbioRun": "Lib-1_220124", "filter_reason": "barcode mutation_nt_count", "count": 6754, "total_counts": 690629, "frac_counts": 0.009779490869917133}, {"pacbioRun": "Lib-1_220124", "filter_reason": "gene clip3", "count": 8877, "total_counts": 690629, "frac_counts": 0.01285350021502138}, {"pacbioRun": "Lib-1_220124", "filter_reason": "gene mutation_nt_count", "count": 45539, "total_counts": 690629, "frac_counts": 0.06593844162350553}, {"pacbioRun": "Lib-1_220124", "filter_reason": "query_clip3", "count": 4496, "total_counts": 690629, "frac_counts": 0.00651000754384771}, {"pacbioRun": "Lib-1_220124", "filter_reason": "query_clip5", "count": 13002, "total_counts": 690629, "frac_counts": 0.018826316300068487}, {"pacbioRun": "Lib-1_220124", "filter_reason": "termini3 clip3", "count": 2826, "total_counts": 690629, "frac_counts": 0.004091922001537729}, {"pacbioRun": "Lib-1_220124", "filter_reason": "termini3 mutation_nt_count", "count": 3915, "total_counts": 690629, "frac_counts": 0.005668745447990165}, {"pacbioRun": "Lib-1_220124", "filter_reason": "termini5 clip5", "count": 22078, "total_counts": 690629, "frac_counts": 0.03196795964258668}, {"pacbioRun": "Lib-1_220124", "filter_reason": "termini5 mutation_nt_count", "count": 4190, "total_counts": 690629, "frac_counts": 0.006066933186993306}, {"pacbioRun": "Lib-1_220124", "filter_reason": "variant_tag3 mutation_nt_count", "count": 1375, "total_counts": 690629, "frac_counts": 0.0019909386950157032}, {"pacbioRun": "Lib-1_220124", "filter_reason": "variant_tag5 mutation_nt_count", "count": 795, "total_counts": 690629, "frac_counts": 0.0011511245545727156}, {"pacbioRun": "Lib-2_211105", "filter_reason": "barcode clip3", "count": 512, "total_counts": 506237, "frac_counts": 0.0010113839960334784}, {"pacbioRun": "Lib-2_211105", "filter_reason": "barcode mutation_nt_count", "count": 6699, "total_counts": 506237, "frac_counts": 0.013232932401227093}, {"pacbioRun": "Lib-2_211105", "filter_reason": "gene clip3", "count": 5014, "total_counts": 506237, "frac_counts": 0.009904451867405979}, {"pacbioRun": "Lib-2_211105", "filter_reason": "gene mutation_nt_count", "count": 17633, "total_counts": 506237, "frac_counts": 0.034831511722770166}, {"pacbioRun": "Lib-2_211105", "filter_reason": "query_clip3", "count": 2560, "total_counts": 506237, "frac_counts": 0.005056919980167392}, {"pacbioRun": "Lib-2_211105", "filter_reason": "query_clip5", "count": 7180, "total_counts": 506237, "frac_counts": 0.014183080256875731}, {"pacbioRun": "Lib-2_211105", "filter_reason": "termini3 clip3", "count": 2435, "total_counts": 506237, "frac_counts": 0.004810000059260781}, {"pacbioRun": "Lib-2_211105", "filter_reason": "termini3 mutation_nt_count", "count": 2703, "total_counts": 506237, "frac_counts": 0.005339396369684555}, {"pacbioRun": "Lib-2_211105", "filter_reason": "termini5 clip5", "count": 14477, "total_counts": 506237, "frac_counts": 0.028597277559720052}, {"pacbioRun": "Lib-2_211105", "filter_reason": "termini5 mutation_nt_count", "count": 2215, "total_counts": 506237, "frac_counts": 0.004375420998465146}, {"pacbioRun": "Lib-2_211105", "filter_reason": "variant_tag3 mutation_nt_count", "count": 1400, "total_counts": 506237, "frac_counts": 0.0027655031141540424}, {"pacbioRun": "Lib-2_211105", "filter_reason": "variant_tag5 mutation_nt_count", "count": 583, "total_counts": 506237, "frac_counts": 0.0011516345111084335}, {"pacbioRun": "Lib-2_220124", "filter_reason": "barcode clip3", "count": 599, "total_counts": 528277, "frac_counts": 0.001133874842175601}, {"pacbioRun": "Lib-2_220124", "filter_reason": "barcode mutation_nt_count", "count": 5237, "total_counts": 528277, "frac_counts": 0.009913359847201373}, {"pacbioRun": "Lib-2_220124", "filter_reason": "gene clip3", "count": 7205, "total_counts": 528277, "frac_counts": 0.013638678193447756}, {"pacbioRun": "Lib-2_220124", "filter_reason": "gene mutation_nt_count", "count": 20175, "total_counts": 528277, "frac_counts": 0.038190191887967864}, {"pacbioRun": "Lib-2_220124", "filter_reason": "query_clip3", "count": 3142, "total_counts": 528277, "frac_counts": 0.005947637319057994}, {"pacbioRun": "Lib-2_220124", "filter_reason": "query_clip5", "count": 8210, "total_counts": 528277, "frac_counts": 0.015541089239168087}, {"pacbioRun": "Lib-2_220124", "filter_reason": "termini3 clip3", "count": 2749, "total_counts": 528277, "frac_counts": 0.005203709417597208}, {"pacbioRun": "Lib-2_220124", "filter_reason": "termini3 mutation_nt_count", "count": 3107, "total_counts": 528277, "frac_counts": 0.005881384198062759}, {"pacbioRun": "Lib-2_220124", "filter_reason": "termini5 clip5", "count": 17831, "total_counts": 528277, "frac_counts": 0.03375312572760124}, {"pacbioRun": "Lib-2_220124", "filter_reason": "termini5 mutation_nt_count", "count": 2974, "total_counts": 528277, "frac_counts": 0.005629622338280864}, {"pacbioRun": "Lib-2_220124", "filter_reason": "variant_tag3 mutation_nt_count", "count": 1255, "total_counts": 528277, "frac_counts": 0.0023756476242577282}, {"pacbioRun": "Lib-2_220124", "filter_reason": "variant_tag5 mutation_nt_count", "count": 597, "total_counts": 528277, "frac_counts": 0.001130088949547302}, {"pacbioRun": "Lib-3_211105", "filter_reason": "barcode clip3", "count": 299, "total_counts": 329569, "frac_counts": 0.0009072455236991343}, {"pacbioRun": "Lib-3_211105", "filter_reason": "barcode mutation_nt_count", "count": 4214, "total_counts": 329569, "frac_counts": 0.012786396778823251}, {"pacbioRun": "Lib-3_211105", "filter_reason": "gene clip3", "count": 3294, "total_counts": 329569, "frac_counts": 0.009994872090518222}, {"pacbioRun": "Lib-3_211105", "filter_reason": "gene mutation_nt_count", "count": 18438, "total_counts": 329569, "frac_counts": 0.055945795872791436}, {"pacbioRun": "Lib-3_211105", "filter_reason": "query_clip3", "count": 2050, "total_counts": 329569, "frac_counts": 0.006220245229375336}, {"pacbioRun": "Lib-3_211105", "filter_reason": "query_clip5", "count": 7123, "total_counts": 329569, "frac_counts": 0.02161307647260513}, {"pacbioRun": "Lib-3_211105", "filter_reason": "termini3 clip3", "count": 1590, "total_counts": 329569, "frac_counts": 0.004824482885222821}, {"pacbioRun": "Lib-3_211105", "filter_reason": "termini3 mutation_nt_count", "count": 1583, "total_counts": 329569, "frac_counts": 0.004803243023463979}, {"pacbioRun": "Lib-3_211105", "filter_reason": "termini5 clip5", "count": 10229, "total_counts": 329569, "frac_counts": 0.03103750656160015}, {"pacbioRun": "Lib-3_211105", "filter_reason": "termini5 mutation_nt_count", "count": 1707, "total_counts": 329569, "frac_counts": 0.005179492003192048}, {"pacbioRun": "Lib-3_211105", "filter_reason": "variant_tag3 mutation_nt_count", "count": 956, "total_counts": 329569, "frac_counts": 0.0029007582630647907}, {"pacbioRun": "Lib-3_211105", "filter_reason": "variant_tag5 mutation_nt_count", "count": 352, "total_counts": 329569, "frac_counts": 0.0010680616198732284}, {"pacbioRun": "Lib-3_220124", "filter_reason": "barcode clip3", "count": 365, "total_counts": 346625, "frac_counts": 0.0010530111792282726}, {"pacbioRun": "Lib-3_220124", "filter_reason": "barcode mutation_nt_count", "count": 3373, "total_counts": 346625, "frac_counts": 0.009730977280923188}, {"pacbioRun": "Lib-3_220124", "filter_reason": "gene clip3", "count": 4839, "total_counts": 346625, "frac_counts": 0.01396033177064551}, {"pacbioRun": "Lib-3_220124", "filter_reason": "gene mutation_nt_count", "count": 21019, "total_counts": 346625, "frac_counts": 0.06063901911287414}, {"pacbioRun": "Lib-3_220124", "filter_reason": "query_clip3", "count": 2510, "total_counts": 346625, "frac_counts": 0.0072412549585286696}, {"pacbioRun": "Lib-3_220124", "filter_reason": "query_clip5", "count": 8332, "total_counts": 346625, "frac_counts": 0.024037504507753337}, {"pacbioRun": "Lib-3_220124", "filter_reason": "termini3 clip3", "count": 1712, "total_counts": 346625, "frac_counts": 0.004939055174900829}, {"pacbioRun": "Lib-3_220124", "filter_reason": "termini3 mutation_nt_count", "count": 1993, "total_counts": 346625, "frac_counts": 0.005749729534799856}, {"pacbioRun": "Lib-3_220124", "filter_reason": "termini5 clip5", "count": 12803, "total_counts": 346625, "frac_counts": 0.036936170212765955}, {"pacbioRun": "Lib-3_220124", "filter_reason": "termini5 mutation_nt_count", "count": 2132, "total_counts": 346625, "frac_counts": 0.0061507392715470606}, {"pacbioRun": "Lib-3_220124", "filter_reason": "variant_tag3 mutation_nt_count", "count": 758, "total_counts": 346625, "frac_counts": 0.002186801298232961}, {"pacbioRun": "Lib-3_220124", "filter_reason": "variant_tag5 mutation_nt_count", "count": 321, "total_counts": 346625, "frac_counts": 0.0009260728452939055}, {"pacbioRun": "Lib-4_211105", "filter_reason": "barcode clip3", "count": 453, "total_counts": 534470, "frac_counts": 0.0008475686193799465}, {"pacbioRun": "Lib-4_211105", "filter_reason": "barcode mutation_nt_count", "count": 6631, "total_counts": 534470, "frac_counts": 0.012406683256309989}, {"pacbioRun": "Lib-4_211105", "filter_reason": "gene clip3", "count": 5507, "total_counts": 534470, "frac_counts": 0.010303665313301028}, {"pacbioRun": "Lib-4_211105", "filter_reason": "gene mutation_nt_count", "count": 25153, "total_counts": 534470, "frac_counts": 0.047061575018242374}, {"pacbioRun": "Lib-4_211105", "filter_reason": "query_clip3", "count": 2863, "total_counts": 534470, "frac_counts": 0.005356708514977455}, {"pacbioRun": "Lib-4_211105", "filter_reason": "query_clip5", "count": 7965, "total_counts": 534470, "frac_counts": 0.014902613804329523}, {"pacbioRun": "Lib-4_211105", "filter_reason": "termini3 clip3", "count": 2595, "total_counts": 534470, "frac_counts": 0.004855277190487773}, {"pacbioRun": "Lib-4_211105", "filter_reason": "termini3 mutation_nt_count", "count": 2705, "total_counts": 534470, "frac_counts": 0.00506108855501712}, {"pacbioRun": "Lib-4_211105", "filter_reason": "termini5 clip5", "count": 14882, "total_counts": 534470, "frac_counts": 0.027844406608415813}, {"pacbioRun": "Lib-4_211105", "filter_reason": "termini5 mutation_nt_count", "count": 2420, "total_counts": 534470, "frac_counts": 0.0045278500196456305}, {"pacbioRun": "Lib-4_211105", "filter_reason": "variant_tag3 mutation_nt_count", "count": 1538, "total_counts": 534470, "frac_counts": 0.0028776170786012313}, {"pacbioRun": "Lib-4_211105", "filter_reason": "variant_tag5 mutation_nt_count", "count": 609, "total_counts": 534470, "frac_counts": 0.0011394465545306565}, {"pacbioRun": "Lib-4_220124", "filter_reason": "barcode clip3", "count": 562, "total_counts": 560663, "frac_counts": 0.0010023846767131057}, {"pacbioRun": "Lib-4_220124", "filter_reason": "barcode mutation_nt_count", "count": 5280, "total_counts": 560663, "frac_counts": 0.009417421873745904}, {"pacbioRun": "Lib-4_220124", "filter_reason": "gene clip3", "count": 7984, "total_counts": 560663, "frac_counts": 0.014240283378785473}, {"pacbioRun": "Lib-4_220124", "filter_reason": "gene mutation_nt_count", "count": 28439, "total_counts": 560663, "frac_counts": 0.05072387512641283}, {"pacbioRun": "Lib-4_220124", "filter_reason": "query_clip3", "count": 3633, "total_counts": 560663, "frac_counts": 0.00647982834608312}, {"pacbioRun": "Lib-4_220124", "filter_reason": "query_clip5", "count": 9372, "total_counts": 560663, "frac_counts": 0.016715923825898982}, {"pacbioRun": "Lib-4_220124", "filter_reason": "termini3 clip3", "count": 2843, "total_counts": 560663, "frac_counts": 0.00507078227027644}, {"pacbioRun": "Lib-4_220124", "filter_reason": "termini3 mutation_nt_count", "count": 3275, "total_counts": 560663, "frac_counts": 0.005841298605401105}, {"pacbioRun": "Lib-4_220124", "filter_reason": "termini5 clip5", "count": 18647, "total_counts": 560663, "frac_counts": 0.03325883819692043}, {"pacbioRun": "Lib-4_220124", "filter_reason": "termini5 mutation_nt_count", "count": 3134, "total_counts": 560663, "frac_counts": 0.005589810634909027}, {"pacbioRun": "Lib-4_220124", "filter_reason": "variant_tag3 mutation_nt_count", "count": 1234, "total_counts": 560663, "frac_counts": 0.0022009656424625845}, {"pacbioRun": "Lib-4_220124", "filter_reason": "variant_tag5 mutation_nt_count", "count": 612, "total_counts": 560663, "frac_counts": 0.0010915648080932752}, {"pacbioRun": "Lib-1_211105", "filter_reason": "aligned", "count": 555551, "total_counts": 654163, "frac_counts": 0.8492546964594451}, {"pacbioRun": "Lib-1_220124", "filter_reason": "aligned", "count": 576055, "total_counts": 690629, "frac_counts": 0.8341019563325606}, {"pacbioRun": "Lib-2_211105", "filter_reason": "aligned", "count": 442826, "total_counts": 506237, "frac_counts": 0.8747404871631271}, {"pacbioRun": "Lib-2_220124", "filter_reason": "aligned", "count": 455196, "total_counts": 528277, "frac_counts": 0.8616615904156342}, {"pacbioRun": "Lib-3_211105", "filter_reason": "aligned", "count": 277734, "total_counts": 329569, "frac_counts": 0.8427188236757704}, {"pacbioRun": "Lib-3_220124", "filter_reason": "aligned", "count": 286468, "total_counts": 346625, "frac_counts": 0.8264493328525063}, {"pacbioRun": "Lib-4_211105", "filter_reason": "aligned", "count": 461149, "total_counts": 534470, "frac_counts": 0.8628154994667615}, {"pacbioRun": "Lib-4_220124", "filter_reason": "aligned", "count": 475648, "total_counts": 560663, "frac_counts": 0.8483670226142977}]}}, {"mode": "vega-lite"});
+</script></div>
+</div>
+</section>
+<section id="Get-CCSs-that-align-to-the-amplicon">
+<h2>Get CCSs that align to the amplicon<a class="headerlink" href="#Get-CCSs-that-align-to-the-amplicon" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CSVs holding aligned reads</span>
+<span class="n">aligned_csvs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">subdir</span><span class="p">,</span> <span class="s2">&quot;aligned.csv&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+                <span class="n">pacbioRun</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">pacbioRun</span><span class="p">,</span> <span class="n">library</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">library</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pacbio_runs</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+    <span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">aligned_csvs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
+
+<span class="n">aligned</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">csv_file</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">pacbioRun</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">pacbioRun</span><span class="p">,</span> <span class="n">library</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">library</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;query_clip5&quot;</span><span class="p">,</span> <span class="s2">&quot;query_clip3&quot;</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;barcode_sequence&quot;</span><span class="p">:</span> <span class="s2">&quot;barcode&quot;</span><span class="p">})</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">aligned_csvs</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+    <span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Read </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">aligned</span><span class="p">)</span><span class="si">:</span><span class="s2">.4g</span><span class="si">}</span><span class="s2"> alignable CCSs:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">aligned</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;pacbioRun&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">n_CCSs</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">NamedAgg</span><span class="p">(</span><span class="s2">&quot;query_name&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">output_csv</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;aligned_ccs_file&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Writing to </span><span class="si">{</span><span class="n">output_csv</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">aligned</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_csv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Read 3.531e+06 alignable CCSs:
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_CCSs</th>
+    </tr>
+    <tr>
+      <th>pacbioRun</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Lib-1_211105</th>
+      <td>555551</td>
+    </tr>
+    <tr>
+      <th>Lib-1_220124</th>
+      <td>576055</td>
+    </tr>
+    <tr>
+      <th>Lib-2_211105</th>
+      <td>442826</td>
+    </tr>
+    <tr>
+      <th>Lib-2_220124</th>
+      <td>455196</td>
+    </tr>
+    <tr>
+      <th>Lib-3_211105</th>
+      <td>277734</td>
+    </tr>
+    <tr>
+      <th>Lib-3_220124</th>
+      <td>286468</td>
+    </tr>
+    <tr>
+      <th>Lib-4_211105</th>
+      <td>461149</td>
+    </tr>
+    <tr>
+      <th>Lib-4_220124</th>
+      <td>475648</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Writing to results/process_ccs/CCSs_aligned_to_amplicon.csv
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;Bernadeta Dadonaite and Jesse Bloom (2022).
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/analyze_pacbio_ccs.nblink.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
