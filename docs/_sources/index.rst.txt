@@ -4,7 +4,7 @@ Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral p
 This page documents the data analysis.
 For the actual code, see https://github.com/dms-vep/SARS-CoV-2_Delta_spike_DMS_REGN10933
 
-Study by Bernadeta Dadonaite and Jesse Bloom.
+Study by Bernadeta Dadonaite, Jesse Bloom, et al (https://www.biorxiv.org/content/10.1101/2022.10.13.512056v1)..
 
 Workflow
 --------

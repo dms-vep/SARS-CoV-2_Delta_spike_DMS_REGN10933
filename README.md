@@ -1,5 +1,6 @@
 # Deep mutational scanning of SARS-CoV-2 Delta variant spike using a barcoded lentiviral platform
-Study by Bernadeta Dadonaite and Jesse Bloom.
+Study by Bernadeta Dadonaite, Jesse Bloom, et al.
+The pre-print for this study is [here](https://www.biorxiv.org/content/10.1101/2022.10.13.512056v1).
 
 Measures functional effects of mutations and escape from antibody REGN10933.
 
