@@ -43,6 +43,24 @@ rule site_numbering_map:
     script:
         "scripts/site_numbering_map.py"
 
+rule validation_IC50s:
+    """Get ``polyclonal`` predicted IC50s for validated mutations."""
+    input:
+        config["validation_ic50s"],
+        [
+            os.path.join(config["escape_dir"], f"{antibody}.pickle")
+            for antibody in pd.read_csv(config["validation_ic50s"])["antibody"].unique()
+        ],
+        nb="notebooks/validation_IC50s.ipynb",
+    output:
+        nb="results/notebooks/validation_IC50s.ipynb",
+    log:
+        os.path.join(config["logdir"], "validation_IC50s.txt"),
+    conda:
+        "dms-vep-pipeline/environment.yml"
+    shell:
+        "papermill {input.nb} {output.nb} &> {log}"
+
 
 # Add any extra data/results files for docs with name: file
 extra_data_files = {
