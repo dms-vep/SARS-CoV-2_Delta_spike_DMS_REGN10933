@@ -39,3 +39,8 @@ sera_default: &sera_default
 # define configuration for specific monoclonal antibodies, merging above defaults
 REGN10933:
   <<: *mAb_default
+# define configuration for specific sera, merging above defaults
+267C:
+  <<: *sera_default
+279C:
+  <<: *sera_default
