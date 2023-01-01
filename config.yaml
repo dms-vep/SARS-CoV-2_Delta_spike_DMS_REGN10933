@@ -15,7 +15,7 @@ docs: docs
 github_repo: SARS-CoV-2_Delta_spike_DMS_REGN10933
 github_user: dms-vep
 github_branch: main  # main branch for repo, assume renamed from master -> main
-description: Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933
+description: Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933 and Delta breakthrough sera
 year: 2022
 authors: Bernadeta Dadonaite, Jesse Bloom, et al (https://www.biorxiv.org/content/10.1101/2022.10.13.512056v1).
 
