@@ -2,7 +2,7 @@
 Study by Bernadeta Dadonaite, Jesse Bloom, et al.
 The pre-print for this study is [here](https://www.biorxiv.org/content/10.1101/2022.10.13.512056v1).
 
-Measures functional effects of mutations and escape from antibody REGN10933.
+Measures functional effects of mutations and escape from antibody REGN10933 and Delta breakthrough sera (267C and 279C).
 
 For documentation of the analysis, see [https://dms-vep.github.io/SARS-CoV-2_Delta_spike_DMS_REGN10933](https://dms-vep.github.io/SARS-CoV-2_Delta_spike_DMS_REGN10933).
 

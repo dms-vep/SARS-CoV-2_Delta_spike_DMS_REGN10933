@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Fit polyclonal model &#8212; Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933  documentation</title>
+    <title>Fit polyclonal model &#8212; Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933 and Delta breakthrough sera  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -143,10 +143,11 @@ div.nboutput.container div.prompt > div {
     }
 }
 
-/* disable scrollbars on prompts */
+/* disable scrollbars and line breaks on prompts */
 div.nbinput.container div.prompt pre,
 div.nboutput.container div.prompt pre {
     overflow: hidden;
+    white-space: pre;
 }
 
 /* input/output area */
@@ -538,7 +539,7 @@ antibody_config={&#39;min_epitope_activity_to_include&#39;: 0.2, &#39;plot_kwarg
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/fh/fast/bloom_j/computational_notebooks/jbloom/2022/SARS-CoV-2_Delta_spike_DMS_REGN10933/.snakemake/conda/b2fca826a4dc19ea1cccc103f3f57f13/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+/fh/fast/bloom_j/computational_notebooks/bdadonai/2022/vep_dms/SARS-CoV-2_Delta_spike_DMS_REGN10933/.snakemake/conda/7c022d2d81458b7fb39e0b59857b3086_/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
   for col_name, dtype in df.dtypes.iteritems():
 </pre></div></div>
 </div>
@@ -547,13 +548,13 @@ antibody_config={&#39;min_epitope_activity_to_include&#39;: 0.2, &#39;plot_kwarg
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="altair-viz-436d66b52ed64bd2bfdfc03d11b1e4e6"></div>
+<div id="altair-viz-75e9adc36aa343b694b3c713c18d2cde"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-436d66b52ed64bd2bfdfc03d11b1e4e6") {
-      outputDiv = document.getElementById("altair-viz-436d66b52ed64bd2bfdfc03d11b1e4e6");
+    if (outputDiv.id !== "altair-viz-75e9adc36aa343b694b3c713c18d2cde") {
+      outputDiv = document.getElementById("altair-viz-75e9adc36aa343b694b3c713c18d2cde");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -693,17 +694,17 @@ min_epitope_activity_to_include=0.2
 
 Fitting model with n_epitopes=1
 # First fitting site-level model.
-# Starting optimization of 1245 parameters at Fri Oct  7 09:16:42 2022.
+# Starting optimization of 1245 parameters at Sun Jan  1 09:10:21 2023.
          step     time_sec         loss     fit_loss   reg_escape   reg_spread reg_activity
-            0     0.077823        16867        16866            0            0      0.90499
-          196       17.901       1619.3       1596.5       19.148            0       3.5893
-# Successfully finished at Fri Oct  7 09:17:00 2022.
-# Starting optimization of 7303 parameters at Fri Oct  7 09:17:00 2022.
+            0     0.047961        16867        16866            0            0      0.90499
+          196       10.659       1619.3       1596.5       19.148            0       3.5893
+# Successfully finished at Sun Jan  1 09:10:32 2023.
+# Starting optimization of 7303 parameters at Sun Jan  1 09:10:32 2023.
          step     time_sec         loss     fit_loss   reg_escape   reg_spread reg_activity
-            0     0.044054       1974.8       1881.4       89.806   5.7777e-32       3.5893
-          200       13.549       1742.7       1596.6       119.46       22.884       3.6718
-          266       17.383       1742.5       1595.9       119.74       23.224        3.673
-# Successfully finished at Fri Oct  7 09:17:17 2022.
+            0     0.048417       1974.8       1881.4       89.806   5.7777e-32       3.5893
+          200       11.409       1742.7       1596.6       119.46       22.884       3.6718
+          266       14.978       1742.5       1595.9       119.74       23.224        3.673
+# Successfully finished at Sun Jan  1 09:10:47 2023.
 Activities of epitopes:
 </pre></div></div>
 </div>
@@ -815,7 +816,7 @@ The selected model has 1 epitopes
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/fh/fast/bloom_j/computational_notebooks/jbloom/2022/SARS-CoV-2_Delta_spike_DMS_REGN10933/.snakemake/conda/b2fca826a4dc19ea1cccc103f3f57f13/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+/fh/fast/bloom_j/computational_notebooks/bdadonai/2022/vep_dms/SARS-CoV-2_Delta_spike_DMS_REGN10933/.snakemake/conda/7c022d2d81458b7fb39e0b59857b3086_/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
   for col_name, dtype in df.dtypes.iteritems():
 </pre></div></div>
 </div>
@@ -824,13 +825,13 @@ The selected model has 1 epitopes
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="altair-viz-a8812e1f23ad49a48c491885b4e0dcc6"></div>
+<div id="altair-viz-7161040ca6e149a9a7d0a6ee8126e5e3"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-a8812e1f23ad49a48c491885b4e0dcc6") {
-      outputDiv = document.getElementById("altair-viz-a8812e1f23ad49a48c491885b4e0dcc6");
+    if (outputDiv.id !== "altair-viz-7161040ca6e149a9a7d0a6ee8126e5e3") {
+      outputDiv = document.getElementById("altair-viz-7161040ca6e149a9a7d0a6ee8126e5e3");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -912,7 +913,7 @@ The selected model has 1 epitopes
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/fh/fast/bloom_j/computational_notebooks/jbloom/2022/SARS-CoV-2_Delta_spike_DMS_REGN10933/.snakemake/conda/b2fca826a4dc19ea1cccc103f3f57f13/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+/fh/fast/bloom_j/computational_notebooks/bdadonai/2022/vep_dms/SARS-CoV-2_Delta_spike_DMS_REGN10933/.snakemake/conda/7c022d2d81458b7fb39e0b59857b3086_/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
   for col_name, dtype in df.dtypes.iteritems():
 </pre></div></div>
 </div>
@@ -921,13 +922,13 @@ The selected model has 1 epitopes
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<div id="altair-viz-b2af012821fa4fd5aa18cfdcd291cbca"></div>
+<div id="altair-viz-f7743f0a35c64427ad826c285b8f8f43"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-b2af012821fa4fd5aa18cfdcd291cbca") {
-      outputDiv = document.getElementById("altair-viz-b2af012821fa4fd5aa18cfdcd291cbca");
+    if (outputDiv.id !== "altair-viz-f7743f0a35c64427ad826c285b8f8f43") {
+      outputDiv = document.getElementById("altair-viz-f7743f0a35c64427ad826c285b8f8f43");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",

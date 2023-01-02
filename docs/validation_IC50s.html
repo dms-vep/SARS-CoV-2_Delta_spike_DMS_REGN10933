@@ -1,0 +1,816 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Validation neutralization assays versus polyclonal fits &#8212; Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933 and Delta breakthrough sera  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Antibody-escape averaged across replicates" href="avg_antibody_escape.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars and line breaks on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+    white-space: pre;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="Validation-neutralization-assays-versus-polyclonal-fits">
+<h1>Validation neutralization assays versus <code class="docutils literal notranslate"><span class="pre">polyclonal</span></code> fits<a class="headerlink" href="#Validation-neutralization-assays-versus-polyclonal-fits" title="Permalink to this headline">¶</a></h1>
+<p>Compare actual measured neutralization values for specific mutants to the <code class="docutils literal notranslate"><span class="pre">polyclonal</span></code> fits.</p>
+<p>Import Python modules:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+</pre></div>
+</div>
+</div>
+<p>Read configuration and validation assay measurements:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">validation_ic50s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;validation_ic50s&quot;</span><span class="p">],</span> <span class="n">na_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">validation_ic50s</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>antibody</th>
+      <th>aa_substitutions</th>
+      <th>measured IC50</th>
+      <th>lower_bound</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>267C</td>
+      <td></td>
+      <td>0.000877</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>267C</td>
+      <td>S371Y</td>
+      <td>0.001423</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>267C</td>
+      <td>R408S</td>
+      <td>0.000574</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>267C</td>
+      <td>R452I</td>
+      <td>0.000678</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>267C</td>
+      <td>F456L</td>
+      <td>0.001209</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>267C</td>
+      <td>E484A</td>
+      <td>0.003011</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>267C</td>
+      <td>F486I</td>
+      <td>0.002161</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>279C</td>
+      <td></td>
+      <td>0.000057</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>279C</td>
+      <td>S371Y</td>
+      <td>0.000181</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>279C</td>
+      <td>R408S</td>
+      <td>0.000045</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>279C</td>
+      <td>R452I</td>
+      <td>0.000038</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>279C</td>
+      <td>F456L</td>
+      <td>0.000074</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>279C</td>
+      <td>E484A</td>
+      <td>0.000112</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>279C</td>
+      <td>F486I</td>
+      <td>0.000125</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Now get the predictions by the averaged <code class="docutils literal notranslate"><span class="pre">polyclonal</span></code> model fits:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">validation_vs_prediction</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">antibody</span><span class="p">,</span> <span class="n">antibody_df</span> <span class="ow">in</span> <span class="n">validation_ic50s</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;antibody&quot;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;escape_dir&quot;</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">antibody</span><span class="si">}</span><span class="s2">.pickle&quot;</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">validation_vs_prediction</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">icXX</span><span class="p">(</span><span class="n">antibody_df</span><span class="p">))</span>
+
+<span class="n">validation_vs_prediction</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">validation_vs_prediction</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">validation_vs_prediction</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>antibody</th>
+      <th>aa_substitutions</th>
+      <th>measured IC50</th>
+      <th>lower_bound</th>
+      <th>mean_IC50</th>
+      <th>median_IC50</th>
+      <th>std_IC50</th>
+      <th>n_models</th>
+      <th>frac_models</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>267C</td>
+      <td></td>
+      <td>0.000877</td>
+      <td>False</td>
+      <td>0.034641</td>
+      <td>0.034711</td>
+      <td>0.034816</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>267C</td>
+      <td>E484A</td>
+      <td>0.003011</td>
+      <td>False</td>
+      <td>0.459317</td>
+      <td>0.387717</td>
+      <td>0.473481</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>267C</td>
+      <td>F456L</td>
+      <td>0.001209</td>
+      <td>False</td>
+      <td>1.323086</td>
+      <td>0.695120</td>
+      <td>1.754687</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>267C</td>
+      <td>F486I</td>
+      <td>0.002161</td>
+      <td>False</td>
+      <td>0.548088</td>
+      <td>0.264798</td>
+      <td>0.718249</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>267C</td>
+      <td>R408S</td>
+      <td>0.000574</td>
+      <td>False</td>
+      <td>0.011290</td>
+      <td>0.011112</td>
+      <td>0.008520</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>267C</td>
+      <td>R452I</td>
+      <td>0.000678</td>
+      <td>False</td>
+      <td>0.006932</td>
+      <td>0.006755</td>
+      <td>0.004558</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>267C</td>
+      <td>S371Y</td>
+      <td>0.001423</td>
+      <td>False</td>
+      <td>0.934559</td>
+      <td>0.418290</td>
+      <td>1.359847</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>279C</td>
+      <td></td>
+      <td>0.000057</td>
+      <td>False</td>
+      <td>0.006658</td>
+      <td>0.006468</td>
+      <td>0.004207</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>279C</td>
+      <td>E484A</td>
+      <td>0.000112</td>
+      <td>False</td>
+      <td>0.019545</td>
+      <td>0.013754</td>
+      <td>0.019474</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>279C</td>
+      <td>F456L</td>
+      <td>0.000074</td>
+      <td>False</td>
+      <td>0.007652</td>
+      <td>0.007338</td>
+      <td>0.005839</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>279C</td>
+      <td>F486I</td>
+      <td>0.000125</td>
+      <td>False</td>
+      <td>0.007503</td>
+      <td>0.007076</td>
+      <td>0.004314</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>279C</td>
+      <td>R408S</td>
+      <td>0.000045</td>
+      <td>False</td>
+      <td>0.006452</td>
+      <td>0.005207</td>
+      <td>0.004716</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>279C</td>
+      <td>R452I</td>
+      <td>0.000038</td>
+      <td>False</td>
+      <td>0.000839</td>
+      <td>0.000766</td>
+      <td>0.000438</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>279C</td>
+      <td>S371Y</td>
+      <td>0.000181</td>
+      <td>False</td>
+      <td>0.019463</td>
+      <td>0.019499</td>
+      <td>0.012934</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Now plot the results. We will plot the <strong>median</strong> across the replicate <code class="docutils literal notranslate"><span class="pre">polyclonal</span></code> fits to different deep mutational scanning replicates. This is an interactive plot that you can mouse over for details:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corr_chart</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">validation_vs_prediction</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">&quot;measured IC50&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)),</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span>
+            <span class="s2">&quot;median_IC50&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;predicted IC50 from DMS&quot;</span><span class="p">,</span>
+            <span class="n">scale</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">),</span>
+        <span class="p">),</span>
+        <span class="n">facet</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Facet</span><span class="p">(</span><span class="s2">&quot;antibody&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">&quot;lower_bound&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;lower_bound&quot;</span><span class="p">),</span>
+        <span class="n">tooltip</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">alt</span><span class="o">.</span><span class="n">Tooltip</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;.3g&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">validation_vs_prediction</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">float</span>
+            <span class="k">else</span> <span class="n">c</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">validation_vs_prediction</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">mark_circle</span><span class="p">(</span><span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">resolve_scale</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;independent&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;independent&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">corr_chart</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/fh/fast/bloom_j/computational_notebooks/bdadonai/2022/vep_dms/SARS-CoV-2_Delta_spike_DMS_REGN10933/.snakemake/conda/7c022d2d81458b7fb39e0b59857b3086_/lib/python3.9/site-packages/altair/utils/core.py:317: FutureWarning: iteritems is deprecated and will be removed in a future version. Use .items instead.
+  for col_name, dtype in df.dtypes.iteritems():
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="altair-viz-03cd4a48e97d42d98f53f7f56a790ffe"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-03cd4a48e97d42d98f53f7f56a790ffe") {
+      outputDiv = document.getElementById("altair-viz-03cd4a48e97d42d98f53f7f56a790ffe");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@5.2.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "5.2.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}, "axis": {"grid": false}}, "data": {"name": "data-66f32cf059940a892d7b026a500672c9"}, "mark": {"type": "circle", "filled": true, "opacity": 0.6, "size": 60}, "encoding": {"color": {"field": "lower_bound", "title": "lower_bound", "type": "nominal"}, "facet": {"columns": 4, "field": "antibody", "title": null, "type": "nominal"}, "tooltip": [{"field": "antibody", "type": "nominal"}, {"field": "aa_substitutions", "type": "nominal"}, {"field": "measured IC50", "format": ".3g", "type": "quantitative"}, {"field": "lower_bound", "type": "nominal"}, {"field": "mean_IC50", "format": ".3g", "type": "quantitative"}, {"field": "median_IC50", "format": ".3g", "type": "quantitative"}, {"field": "std_IC50", "format": ".3g", "type": "quantitative"}, {"field": "n_models", "type": "quantitative"}, {"field": "frac_models", "format": ".3g", "type": "quantitative"}], "x": {"field": "measured IC50", "scale": {"type": "log"}, "type": "quantitative"}, "y": {"field": "median_IC50", "scale": {"type": "log"}, "title": "predicted IC50 from DMS", "type": "quantitative"}}, "height": 150, "resolve": {"scale": {"x": "independent", "y": "independent"}}, "width": 150, "$schema": "https://vega.github.io/schema/vega-lite/v5.2.0.json", "datasets": {"data-66f32cf059940a892d7b026a500672c9": [{"antibody": "267C", "aa_substitutions": "", "measured IC50": 0.000877, "lower_bound": false, "mean_IC50": 0.034641161237712714, "median_IC50": 0.034711316459847034, "std_IC50": 0.034815841729052145, "n_models": 4, "frac_models": 1.0}, {"antibody": "267C", "aa_substitutions": "E484A", "measured IC50": 0.003011, "lower_bound": false, "mean_IC50": 0.45931679035682194, "median_IC50": 0.38771722277083304, "std_IC50": 0.47348138168531617, "n_models": 4, "frac_models": 1.0}, {"antibody": "267C", "aa_substitutions": "F456L", "measured IC50": 0.001209, "lower_bound": false, "mean_IC50": 1.3230859057162925, "median_IC50": 0.6951198615381902, "std_IC50": 1.7546871907225017, "n_models": 4, "frac_models": 1.0}, {"antibody": "267C", "aa_substitutions": "F486I", "measured IC50": 0.002161, "lower_bound": false, "mean_IC50": 0.5480882201903443, "median_IC50": 0.2647984500788427, "std_IC50": 0.7182493662302828, "n_models": 4, "frac_models": 1.0}, {"antibody": "267C", "aa_substitutions": "R408S", "measured IC50": 0.000574, "lower_bound": false, "mean_IC50": 0.011289559420937699, "median_IC50": 0.011111940464196312, "std_IC50": 0.008519856770936715, "n_models": 4, "frac_models": 1.0}, {"antibody": "267C", "aa_substitutions": "R452I", "measured IC50": 0.000678, "lower_bound": false, "mean_IC50": 0.006932050826402053, "median_IC50": 0.006755193251398039, "std_IC50": 0.004557788693696998, "n_models": 4, "frac_models": 1.0}, {"antibody": "267C", "aa_substitutions": "S371Y", "measured IC50": 0.001423, "lower_bound": false, "mean_IC50": 0.9345586653149142, "median_IC50": 0.41828979346550693, "std_IC50": 1.359846779588215, "n_models": 4, "frac_models": 1.0}, {"antibody": "279C", "aa_substitutions": "", "measured IC50": 5.7e-05, "lower_bound": false, "mean_IC50": 0.006657613702076343, "median_IC50": 0.006467973290026525, "std_IC50": 0.0042070021894914465, "n_models": 4, "frac_models": 1.0}, {"antibody": "279C", "aa_substitutions": "E484A", "measured IC50": 0.000112, "lower_bound": false, "mean_IC50": 0.019544743610521314, "median_IC50": 0.013754386131985125, "std_IC50": 0.019474115459235976, "n_models": 4, "frac_models": 1.0}, {"antibody": "279C", "aa_substitutions": "F456L", "measured IC50": 7.4e-05, "lower_bound": false, "mean_IC50": 0.007651827641775161, "median_IC50": 0.007337778281163398, "std_IC50": 0.00583869689708008, "n_models": 4, "frac_models": 1.0}, {"antibody": "279C", "aa_substitutions": "F486I", "measured IC50": 0.000125, "lower_bound": false, "mean_IC50": 0.007503000694434354, "median_IC50": 0.007075822741413731, "std_IC50": 0.004314380950022685, "n_models": 4, "frac_models": 1.0}, {"antibody": "279C", "aa_substitutions": "R408S", "measured IC50": 4.5e-05, "lower_bound": false, "mean_IC50": 0.006452030356708983, "median_IC50": 0.0052068986542438515, "std_IC50": 0.00471577090783956, "n_models": 4, "frac_models": 1.0}, {"antibody": "279C", "aa_substitutions": "R452I", "measured IC50": 3.8e-05, "lower_bound": false, "mean_IC50": 0.0008385722756181547, "median_IC50": 0.000766241363332215, "std_IC50": 0.0004377544265617115, "n_models": 4, "frac_models": 1.0}, {"antibody": "279C", "aa_substitutions": "S371Y", "measured IC50": 0.000181, "lower_bound": false, "mean_IC50": 0.019462687291304768, "median_IC50": 0.019498944880318746, "std_IC50": 0.012933747825678124, "n_models": 4, "frac_models": 1.0}]}}, {"mode": "vega-lite"});
+</script></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+          </div>
+          
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;Bernadeta Dadonaite, Jesse Bloom, et al (https://www.biorxiv.org/content/10.1101/2022.10.13.512056v1). (2022).
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/validation_IC50s.nblink.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

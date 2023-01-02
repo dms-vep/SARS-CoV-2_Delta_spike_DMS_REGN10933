@@ -3,4 +3,6 @@ Antibody-escape averaged across replicates
 ------------------------------------------
 
 - :doc:`REGN10933 <avg_antibody_escape_REGN10933>`
+- :doc:`279C <avg_antibody_escape_279C>`
+- :doc:`267C <avg_antibody_escape_267C>`
 
