@@ -1,0 +1,62 @@
+# ======================================================== #
+#                                                          #
+#     Edit the information in this configuration file      #
+#                                                          #
+# ======================================================== #
+
+# ====== Info applying to the whole variant library ====== #
+organism: severe acute respiratory syndrome coronavirus 2
+strain: Delta
+isolation_source: HEK-293T-rtTA
+collection_date: 2022
+geographic_location: 'USA: Washington'
+sample_type: plasmid
+
+# ======== Info for Illumina barcodes BioSamples ======== #
+barcode_runs: 
+  
+  # Path to the barcoded runs csv file that will go into the BioSample
+  file_path: ../data/barcode_runs.csv
+  
+  # Edit this data that goes into the SRA metadata table for the BioSample
+  accession: SAMN31230628
+  sample_id_columns: [date, virus_batch, sample_type, antibody, antibody_concentration, replicate]
+  title_prefix: Delta spike Illumina barcode sequencing for sample  
+  description: Illumina barcode sequencing Delta spike
+  strategy: AMPLICON
+  source: SYNTHETIC
+  selection: PCR
+  layout: single
+  platform: ILLUMINA
+  model: Illumina HiSeq 2500
+
+  # Meaningful BioSample specific folder name for FTP upload
+  ftp_subfolder: Delta_spike_DMS_REGN10933_barcodes
+
+
+# ========== Info for PacBio library BioSample ========== #
+pacbio_runs:
+  
+  # Path to the pacbio runs that will be included in the BioSample
+  file_path: ../data/PacBio_runs.csv
+ 
+  # This data goes into the SRA metadata table
+  accession: SAMN31230634
+  title_prefix: PacBio CCSs linking variants to barcodes for SARS-CoV-2 Delta spike deep mutational scanning for
+  description: Restriction digest of plasmids carrying barcoded spike variants
+  strategy: Synthetic-Long-Read
+  source: SYNTHETIC
+  selection: Restriction Digest
+  layout: single
+  platform: PACBIO_SMRT
+  model: PacBio Sequel II
+
+  # Meaningful BioSample specific folder name for FTP upload
+  ftp_subfolder: Delta_spike_DMS_pacbio_ccss
+
+# =========== Info for uploading to SRA via FTP =========== #
+# These come from the SRA FTP upload instructions.
+ftp_username: subftp
+ftp_account_folder: uploads/whannon_fredhutch.org_K2yAcKhg
+
+  
