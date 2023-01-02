@@ -1,5 +1,5 @@
-Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933
-=========================================================================================================
+Deep mutational scanning of SARS-CoV-2 Delta spike using a barcoded lentiviral platform against REGN10933 and Delta breakthrough sera
+=====================================================================================================================================
 
 This page documents the data analysis.
 For the actual code, see https://github.com/dms-vep/SARS-CoV-2_Delta_spike_DMS_REGN10933
@@ -32,6 +32,7 @@ details, using dropdowns, etc.
    analyze_prob_escape
    fit_polyclonal
    avg_antibody_escape
+   validation_IC50s
 
 Data files
 ----------
@@ -56,5 +57,7 @@ Interactive plots of mutation functional effects
 
 Interactive plots of mutation antibody escape
 ---------------------------------------------
+- `267C escape plot <267C_escape_plot.html>`_
+- `279C escape plot <279C_escape_plot.html>`_
 - `REGN10933 escape plot <REGN10933_escape_plot.html>`_
 
